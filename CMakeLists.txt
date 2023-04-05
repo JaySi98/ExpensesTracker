@@ -129,6 +129,15 @@ message(STATUS "Applied compiler warnings. Using standard C++${CMAKE_CXX_STANDAR
 # Project dependencies
 # ===========================
 
+set(Boost_FIND_REQUIRED TRUE)
+set(Boost_FIND_QUIETLY TRUE)
+set(Boost_DEBUG FALSE)
+set(Boost_USE_MULTITHREADED TRUE)
+set(Boost_USE_STATIC_LIBS TRUE)
+
+find_package(Boost COMPONENTS date_time)
+target_link_libraries(${PROJECT_NAME} Boost::date_time)
+
 # find_package(package_name package_version REQUIRED package_type [other_options])
 #target_link_libraries(
 #  ${PROJECT_NAME}

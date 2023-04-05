@@ -19,9 +19,10 @@ option(ENABLE_CODE_COVERAGE "Enable code coverage through GCC or CLANG."      OF
 # Compiler options
 option(WARNINGS_AS_ERRORS   "Treat compiler warnings as errors."              OFF)
 
-# Package managers options(Conan, Vcpkg)
+# Package managers options(Conan, Vcpkg, CPM)
 option(ENABLE_CONAN         "Enable the Conan package manager."               OFF)
 option(ENABLE_VCPKG         "Enable the Vcpkg package manager."               OFF)
+option(ENABLE_CPM           "Enable the Vcpkg package manager."               ON)
 
 # Sanitizers options
 set(USE_SANITIZER "" CACHE STRING "Address, Memory, MemoryWithOrigins, Undefined, Thread, Leak, CFI")
