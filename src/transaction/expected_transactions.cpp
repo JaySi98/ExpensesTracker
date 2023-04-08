@@ -43,6 +43,36 @@ namespace transaction
         return false;
     }
 
-    const expected_transactions::mapped_incomes&  expected_transactions::get_expected_incomes()  const{return m_assumed_incomes;}
-    const expected_transactions::mapped_expanses& expected_transactions::get_expected_expenses() const{return m_assumed_expenses;}
+    const expected_transactions::mapped_incomes&  expected_transactions::get_expected_incomes()  const
+    {return m_assumed_incomes;}
+
+    const expected_transactions::mapped_expanses& expected_transactions::get_expected_expenses() const
+    {return m_assumed_expenses;}
+
+    std::pair<bool, float> expected_transactions::get_transaction_value(income_type type) const
+    {
+        auto iter = m_assumed_incomes.find(type);
+
+        if(iter != m_assumed_incomes.end())
+        {
+            return std::pair<bool, float>(true, iter->second); 
+        }
+
+        // in case it doesnt contain
+        return std::pair<bool, float>(false, 0);
+    }
+
+    std::pair<bool, float> expected_transactions::get_transaction_value(expense_type type) const
+    {
+        auto iter = m_assumed_expenses.find(type);
+
+        if(iter != m_assumed_expenses.end())
+        {
+            return std::pair<bool, float>(true, iter->second); 
+        }
+
+        // in case it doesnt contain
+        return std::pair<bool, float>(false, 0);
+    }
+
 }

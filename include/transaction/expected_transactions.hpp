@@ -22,7 +22,10 @@ namespace transaction
 
         const mapped_incomes& get_expected_incomes() const; 
         const mapped_expanses& get_expected_expenses() const;
-                
+
+        std::pair<bool, float> get_transaction_value(income_type type) const;
+        std::pair<bool, float> get_transaction_value(expense_type type) const;
+
     private:     
         mapped_incomes  m_assumed_incomes;
         mapped_expanses m_assumed_expenses;
