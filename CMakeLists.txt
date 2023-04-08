@@ -138,6 +138,8 @@ set(Boost_USE_STATIC_LIBS TRUE)
 find_package(Boost COMPONENTS date_time)
 target_link_libraries(${PROJECT_NAME} Boost::date_time)
 
+# CPMAddPackage("gh:mysql/mysql-connector-cpp#trunk")
+
 # find_package(package_name package_version REQUIRED package_type [other_options])
 #target_link_libraries(
 #  ${PROJECT_NAME}

@@ -6,30 +6,62 @@
 
 using namespace boost;
 
+    // TODO add operators
+    // TODO add proper enums
+
 namespace transaction
 {
-    class transaction_type
+    enum class income_type
     {
-    public:
-        transaction_type(int id_, const std::string& name_);
-    private:
-        std::string name;
-        int id;
+        SALARY,
+        INVESTMENTS,
+        OTHER
     };
-    
+
+    enum class expense_type
+    {
+        RENT,
+        FOOD,
+        OTHER
+    };
+
     class transaction
     {
     public:
-        transaction(double value_, const std::string& info_, const gregorian::date& day_);
+        transaction(const std::string& note, const gregorian::date& day, float value);
+        virtual ~transaction() = default;
 
-        double get_value() const;
-        std::string get_info() const;
+        std::string get_note()  const;
+        int         get_id()    const;
+        float       get_value() const;
         gregorian::date get_day() const;
 
     protected:
-        int id;
-        double value;
-        std::string info;
-        gregorian::date day;
-    };    
-} // namespace expense
+        int         m_id;
+        std::string m_note;
+        float       m_value;        
+        gregorian::date m_day;
+    };
+
+    class income : public transaction
+    {
+    public:
+        income(const std::string& note, const gregorian::date& day, float value, const income_type& type);        
+        income_type get_type() const;
+
+    private:
+        income_type m_type;
+    };
+
+
+    class expense : public transaction
+    {
+    public:
+        expense(const std::string& note, const gregorian::date& day, float value, const expense_type& type);
+        expense_type get_type() const;
+
+    private:
+        expense_type m_type;
+    };
+
+} // namespace transaction

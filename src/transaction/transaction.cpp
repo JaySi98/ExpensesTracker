@@ -1,24 +1,36 @@
 #include <transaction/transaction.hpp>
 
+
 namespace transaction
-{   
-    static int generate_transaction_id()
+{
+    static int generate_id()
     {
         static int i = 0;
         return i++;
     }
 
-    transaction_type::transaction_type(int id_, const std::string& name_)
-        : id(id_), name(name_) 
+    // TRANSACTION
+    transaction::transaction(const std::string& note, const gregorian::date& day, float value)
+        : m_note(note), m_day(day), m_value(value), m_id(generate_id()) 
+    { }
+
+    std::string transaction::get_note()  const {return m_note;}
+    int         transaction::get_id()    const {return m_id;}
+    float       transaction::get_value() const {return m_value;}
+    gregorian::date transaction::get_day() const {return m_day;}
+
+    // INCOME
+    income::income(const std::string& note, const gregorian::date& day, float value, const income_type& type)
+        : transaction(note, day, value), m_type(type) 
+    { }      
+
+    income_type income::get_type() const {return m_type;}
+
+    // EXPENSE
+    expense::expense(const std::string& note, const gregorian::date& day, float value, const expense_type& type)
+        : transaction(note, day, value), m_type(type) 
     {}
 
-    transaction::transaction(double value_, const std::string& info_, const gregorian::date& day_)
-    : value(value_), info(info_), day(day_), id(generate_transaction_id())
-    {}
+    expense_type expense::get_type() const {return m_type;}
 
-    double transaction::get_value() const { return value; }
-
-    std::string transaction::get_info() const { return info; }
-
-    gregorian::date transaction::get_day() const { return day; }
-}
+} // namespace transaction
