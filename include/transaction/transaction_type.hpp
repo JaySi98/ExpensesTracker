@@ -8,8 +8,8 @@ namespace transaction
     class transacation_type
     {
     public:
-        transacation_type(std::function<int(void)> id_generator, const std::string& name)
-            : m_id(id_generator()), m_name(name)
+        transacation_type(int id, const std::string& name)
+            : m_id(id), m_name(name)
         { }        
 
         virtual ~transacation_type() = default;
@@ -31,16 +31,16 @@ namespace transaction
     class income_type : public transacation_type
     {
     public: 
-        income_type(std::function<int(void)> id_generator, const std::string& name)
-            : transacation_type(id_generator, name)
+        income_type(int id, const std::string& name)
+            : transacation_type(id, name)
         {}
     };
 
     class expense_type : public transacation_type
     {
     public: 
-        expense_type(std::function<int(void)> id_generator, const std::string& name)
-            : transacation_type(id_generator, name)
+        expense_type(int id, const std::string& name)
+            : transacation_type(id, name)
         {}
     };
 
