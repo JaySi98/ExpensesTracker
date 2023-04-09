@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 #include <transaction/expected_transactions.hpp>
 
-// TODO
 class expectedTransactionsTest : public ::testing::Test
 {
 protected:
@@ -36,9 +35,13 @@ TEST_F(expectedTransactionsTest, construtor)
 {
     EXPECT_TRUE(et1->get_expected_expenses().empty());
     EXPECT_TRUE(et1->get_expected_incomes().empty());
+    EXPECT_EQ(et1->get_sum_expected_incomes(), 0);
+    EXPECT_EQ(et1->get_sum_expected_expenses(), 0);
 
     EXPECT_FALSE(et2->get_expected_expenses().empty());
     EXPECT_FALSE(et2->get_expected_incomes().empty());
+    EXPECT_EQ(et2->get_sum_expected_incomes(), 100);
+    EXPECT_EQ(et2->get_sum_expected_expenses(), 100);
 }
 
 TEST_F(expectedTransactionsTest, add_new_transaction_income) 
@@ -46,9 +49,11 @@ TEST_F(expectedTransactionsTest, add_new_transaction_income)
     EXPECT_TRUE(et1->get_expected_incomes().empty());
     EXPECT_TRUE(et1->add_new_transaction(transaction::income_type::INVESTMENTS, 100));
     EXPECT_FALSE(et1->get_expected_incomes().empty());
+    EXPECT_EQ(et1->get_sum_expected_incomes(), 100);
 
     EXPECT_TRUE(et2->add_new_transaction(transaction::income_type::OTHER, 100));
     EXPECT_FALSE(et2->add_new_transaction(transaction::income_type::OTHER, 100));
+    EXPECT_EQ(et2->get_sum_expected_incomes(), 200);
 }
 
 TEST_F(expectedTransactionsTest, add_new_transaction_expense) 
@@ -56,9 +61,11 @@ TEST_F(expectedTransactionsTest, add_new_transaction_expense)
     EXPECT_TRUE(et1->get_expected_expenses().empty());
     EXPECT_TRUE(et1->add_new_transaction(transaction::expense_type::FOOD, 100));
     EXPECT_FALSE(et1->get_expected_expenses().empty());
+    EXPECT_EQ(et1->get_sum_expected_expenses(), 100);
 
     EXPECT_TRUE(et2->add_new_transaction(transaction::expense_type::OTHER, 100));
     EXPECT_FALSE(et2->add_new_transaction(transaction::expense_type::OTHER, 100));
+    EXPECT_EQ(et2->get_sum_expected_expenses(), 200);
 }
 
 TEST_F(expectedTransactionsTest, update_transaction_income) 
@@ -66,6 +73,7 @@ TEST_F(expectedTransactionsTest, update_transaction_income)
     EXPECT_FALSE(et1->update_transaction(transaction::income_type::SALARY, 100));
     EXPECT_TRUE(et1->add_new_transaction(transaction::income_type::SALARY, 100));
     EXPECT_TRUE(et1->update_transaction(transaction::income_type::SALARY, 200));
+    EXPECT_EQ(et1->get_sum_expected_incomes(), 200);
 }
 
 TEST_F(expectedTransactionsTest, update_transaction_expense) 
@@ -73,6 +81,7 @@ TEST_F(expectedTransactionsTest, update_transaction_expense)
     EXPECT_FALSE(et1->update_transaction(transaction::expense_type::FOOD, 100));
     EXPECT_TRUE(et1->add_new_transaction(transaction::expense_type::FOOD, 100));
     EXPECT_TRUE(et1->update_transaction(transaction::expense_type::FOOD, 200));    
+    EXPECT_EQ(et1->get_sum_expected_expenses(), 200);
 }
 
 TEST_F(expectedTransactionsTest, get_expected_incomes) 

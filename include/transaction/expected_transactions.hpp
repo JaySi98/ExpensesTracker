@@ -26,9 +26,16 @@ namespace transaction
         std::pair<bool, float> get_transaction_value(income_type type) const;
         std::pair<bool, float> get_transaction_value(expense_type type) const;
 
+        float get_sum_expected_incomes() const;
+        float get_sum_expected_expenses() const;
+
     private:     
+        void calculate_sum_incomes();
+        void calculate_sum_expenses();
         mapped_incomes  m_assumed_incomes;
         mapped_expanses m_assumed_expenses;
+        float m_sum_incomes;
+        float m_sum_expenses;
     };
 }
 

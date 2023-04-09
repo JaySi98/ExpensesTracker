@@ -4,17 +4,33 @@ namespace transaction
 {
 
     expected_transactions::expected_transactions(const mapped_incomes& incomes, const mapped_expanses& expenses)
-        : m_assumed_incomes(incomes), m_assumed_expenses(expenses) 
-    { }
+        : m_assumed_incomes(incomes)
+        , m_assumed_expenses(expenses) 
+    { 
+        calculate_sum_incomes();
+        calculate_sum_expenses();
+    }
 
     bool expected_transactions::add_new_transaction(income_type type, float expected_value)
     {
-        return m_assumed_incomes.emplace(std::pair<income_type, float>(type, expected_value)).second;
+        if(m_assumed_incomes.emplace(std::pair<income_type, float>(type, expected_value)).second)
+        {
+            calculate_sum_incomes();
+            return true;
+        }
+
+        return false;
     }                                                                    
 
     bool expected_transactions::add_new_transaction(expense_type type, float expected_value)
     {
-        return m_assumed_expenses.emplace(std::pair<expense_type, float>(type, expected_value)).second;
+        if(m_assumed_expenses.emplace(std::pair<expense_type, float>(type, expected_value)).second)
+        {
+            calculate_sum_expenses();
+            return true;
+        }
+
+        return false;
     }
     
     bool expected_transactions::update_transaction(income_type type, float new_value)
@@ -24,6 +40,7 @@ namespace transaction
         if(iter != m_assumed_incomes.end())
         {
             iter->second = new_value;
+            calculate_sum_incomes();
             return true;
         }
 
@@ -37,6 +54,7 @@ namespace transaction
         if(iter != m_assumed_expenses.end())
         {
             iter->second = new_value;
+            calculate_sum_expenses();
             return true;
         }
 
@@ -75,4 +93,29 @@ namespace transaction
         return std::pair<bool, float>(false, 0);
     }
 
+    void expected_transactions::calculate_sum_incomes()
+    {
+        float sum = 0;
+        for(std::pair<income_type, float> pair : m_assumed_incomes)
+        {
+            sum += pair.second;
+        }
+        m_sum_incomes = sum;
+    }
+
+    void expected_transactions::calculate_sum_expenses()
+    {
+        float sum = 0;
+        for(std::pair<expense_type, float> pair : m_assumed_expenses)
+        {
+            sum += pair.second;
+        }
+        m_sum_expenses = sum;
+    }
+
+    float expected_transactions::get_sum_expected_incomes() const
+    { return m_sum_incomes; }
+
+    float expected_transactions::get_sum_expected_expenses() const
+    { return m_sum_expenses; }
 }
