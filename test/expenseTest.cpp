@@ -1,6 +1,34 @@
 #include <gtest/gtest.h>
 #include <transaction/transaction.hpp>
 
+TEST(expenseTest, defaultConstructor) {
+    transaction::expense expense {};
+
+    EXPECT_EQ(expense.id, 0);
+    EXPECT_EQ(expense.value, 0);
+    EXPECT_EQ(expense.note, "");
+    EXPECT_EQ(expense.day, gregorian::date{}); 
+    EXPECT_EQ(expense.type, std::shared_ptr<transaction::expense_type>{});
+}
+
+TEST(expenseTest, constructor) {
+
+    transaction::expense_type type{0, "name"};
+    transaction::expense expense {
+        1,
+        "text",
+        gregorian::date(2000,gregorian::Feb,1),
+        100,
+        type
+    };
+
+    EXPECT_EQ(expense.id, 1);
+    EXPECT_EQ(expense.value, 100);
+    EXPECT_EQ(expense.note, "text");
+    EXPECT_EQ(expense.day, gregorian::date(2000,gregorian::Feb,1)); 
+    EXPECT_EQ(expense.type->get_id(), 0);
+    EXPECT_EQ(expense.type->get_name(), "name");
+}
 
 // class expenseTest : public ::testing::Test
 // {

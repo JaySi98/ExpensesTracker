@@ -1,6 +1,35 @@
 #include <gtest/gtest.h>
 #include <transaction/transaction.hpp>
 
+TEST(incomeTest, defaultConstructor) {
+    transaction::income income {};
+
+    EXPECT_EQ(income.id, 0);
+    EXPECT_EQ(income.value, 0);
+    EXPECT_EQ(income.note, "");
+    EXPECT_EQ(income.day, gregorian::date{}); 
+    EXPECT_EQ(income.type, std::shared_ptr<transaction::transaction_type>{});
+}
+
+TEST(incomeTest, constructor) {
+
+    transaction::income_type type{0, "name"};
+    transaction::income income {
+        1,
+        "text",
+        gregorian::date(2000,gregorian::Feb,1),
+        100,
+        type
+    };
+
+    EXPECT_EQ(income.id, 1);
+    EXPECT_EQ(income.value, 100);
+    EXPECT_EQ(income.note, "text");
+    EXPECT_EQ(income.day, gregorian::date(2000,gregorian::Feb,1)); 
+    EXPECT_EQ(income.type->get_id(), 0);
+    EXPECT_EQ(income.type->get_name(), "name");
+}
+
 // class incomeTest : public ::testing::Test
 // {
 // protected:

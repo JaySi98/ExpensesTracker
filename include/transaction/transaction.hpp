@@ -12,32 +12,32 @@ namespace transaction
 {
     class transaction
     {
-        using p_type = std::shared_ptr<transacation_type>; 
+        using p_type = std::shared_ptr<transaction_type>; 
 
     public:
         transaction() = default;
-        transaction(int id, const std::string& note, const gregorian::date& day, float value, const transacation_type& type)
-            : m_id(id)
-            , m_note(note)
-            , m_day(day)
-            , m_value(value)
-            , m_type( new transacation_type(type)) 
+        transaction(int id_, const std::string& note_, const gregorian::date& day_, float value_, const transaction_type& type_)
+            : id(id_)
+            , note(note_)
+            , day(day_)
+            , value(value_)
+            , type(new transaction_type(type_)) 
         { }
         virtual ~transaction() = default;
 
-        int             m_id;
-        std::string     m_note;
-        float           m_value;        
-        gregorian::date m_day;
-        p_type          m_type;
+        int             id;
+        std::string     note;
+        gregorian::date day;
+        float           value;        
+        p_type          type;
     };
 
     class income : public transaction
     {
     public:
         income() = default;
-        income(int id, const std::string& note, const gregorian::date& day, float value, const transacation_type& type)
-            : transaction(id, note, day, value, type)
+        income(int id_, const std::string& note_, const gregorian::date& day_, float value_, const transaction_type& type_)
+            : transaction(id_, note_, day_, value_, type_)
         {}
     };
 
@@ -46,8 +46,8 @@ namespace transaction
     {
     public:
         expense() = default;
-        expense(int id, const std::string& note, const gregorian::date& day, float value, const transacation_type& type)
-            : transaction(id, note, day, value, type)
+        expense(int id_, const std::string& note_, const gregorian::date& day_, float value_, const transaction_type& type_)
+            : transaction(id_, note_, day_, value_, type_)
         {}
     };
 
@@ -59,10 +59,10 @@ namespace transaction
 // {
 //     class transaction
 //     {
-//         using p_type = std::shared_ptr<transacation_type>; 
+//         using p_type = std::shared_ptr<transaction_type>; 
 //     public:
 //         transaction(int id, const std::string& note, const gregorian::date& day, float value, 
-//                 const transacation_type& new_type);
+//                 const transaction_type& new_type);
 //         virtual ~transaction() = default;
 
 //         std::string get_note()  const;
@@ -74,7 +74,7 @@ namespace transaction
 //         void set_note(const std::string& new_note);
 //         void set_value(float new_value);
 //         void set_day(const gregorian::date& new_day);
-//         void set_type(const transacation_type& new_type);
+//         void set_type(const transaction_type& new_type);
 
 //     protected:
 //         int             m_id;
@@ -88,7 +88,7 @@ namespace transaction
 //     {
 //     public:
 //         income(int id, const std::string& note, const gregorian::date& day, float value, 
-//                 const transacation_type& new_type);
+//                 const transaction_type& new_type);
 //     };
 
 
@@ -96,7 +96,7 @@ namespace transaction
 //     {
 //     public:
 //         expense(int id, const std::string& note, const gregorian::date& day, float value, 
-//                 const transacation_type& new_type);
+//                 const transaction_type& new_type);
 
 //     };
 
