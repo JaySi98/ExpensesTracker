@@ -7,6 +7,7 @@ set(HEADERS
 )
 
 set(SOURCES
+    src/transaction/transaction_type.cpp
     src/transaction/planned_transactions.cpp
     # src/transaction/saved_transactions.cpp
     # src/budget/monthly_budget.cpp

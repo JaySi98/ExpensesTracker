@@ -8,26 +8,12 @@ namespace transaction
     class transaction_type
     {
     public:
-        transaction_type(int id, const std::string& name)
-            : m_id(id), m_name(name)
-        { }        
-
+        transaction_type(int id, const std::string& name);
         virtual ~transaction_type() = default;
-
-        virtual int get_id() const 
-        {return m_id;}
-        
-        virtual const std::string& get_name() const 
-        {return m_name;}
-
-        void set_name(std::string new_name) 
-        {m_name = new_name;}
-
-        bool operator == (const transaction_type& other)
-        { return (m_id == other.m_id);}
-
-        // bool operator < (const transaction_type& other)
-        // { return (m_id < other.m_id);}
+        virtual int get_id() const;
+        virtual const std::string& get_name() const;
+        void set_name(std::string new_name);
+        bool operator == (const transaction_type& other);
 
     protected:
         int m_id;
@@ -37,20 +23,15 @@ namespace transaction
     class income_type : public transaction_type
     {
     public: 
-        income_type(int id, const std::string& name)
-            : transaction_type(id, name)
-        {}
+        income_type(int id, const std::string& name);
     };
 
     class expense_type : public transaction_type
     {
     public: 
-        expense_type(int id, const std::string& name)
-            : transaction_type(id, name)
-        {}
+        expense_type(int id, const std::string& name);
     };
 
-    bool operator < (const transaction_type& left, const transaction_type& right)
-    { return (left.get_id() < right.get_id());}
+    bool operator < (const transaction_type& left, const transaction_type& right);
 
 } // namespace transaction
