@@ -24,7 +24,6 @@ set(TEST_SOURCES
     transactionTypeTest.cpp
     incomeTest.cpp
     expenseTest.cpp
-
-    # expectedTransactionsTest.cpp
+    plannedTransactionsTest.cpp
     # savedTransactionsTest.cpp
 )
