@@ -3,7 +3,8 @@
 #include <vector>
 #include <memory>
 #include <boost/date_time/gregorian/gregorian.hpp>
-#include <transaction/expected_transactions.hpp>
+#include <transaction/planned_transactions.hpp>
+#include <transaction/saved_transactions.hpp>
 
 namespace budget
 {
@@ -11,35 +12,39 @@ namespace budget
 
     class monthly_budget
     {        
-        using p_expected = std::shared_ptr<expected_transactions>;
-        using p_incomes  = std::shared_ptr<std::vector<income>>;
-        using p_expenses = std::shared_ptr<std::vector<expense>>;
+        using p_planned  = std::shared_ptr<planned_transactions>;
+        using p_saved    = std::shared_ptr<saved_transactions>;
         
     public:
-        monthly_budget(float initial_budget, const gregorian::date& date, const expected_transactions& expected);
+        monthly_budget(float initial_budget, const gregorian::date& date);
+        monthly_budget(float initial_budget, const gregorian::date& date, const planned_transactions& planned_incomes, 
+                    const planned_transactions& planned_expenses);
 
         void add_income(const income& new_income);
         void add_expense(const expense& new_expense);
 
+        std::shared_ptr<saved_transactions>  get_incomes();
+        std::shared_ptr<saved_transactions>  get_expenses();
+        std::shared_ptr<planned_transactions> get_planned_incomes();
+        std::shared_ptr<planned_transactions> get_planned_expenses();
+
         void set_initial_budget(float new_value);
         float get_initial_budget() const;
         float get_current_budget() const;
-        gregorian::date get_date() const;
         void set_date(const gregorian::date& new_date);
-
-        p_incomes  get_incomes()   const;
-        p_expenses get_expenses()  const;
-        p_expected get_expected_transactions() const;
+        gregorian::date get_date() const;
 
     private:
         void calculate_current_budget();
 
-        p_incomes  m_incomes;
-        p_expenses m_expenses;
-        gregorian::date m_month_year;
-        p_expected m_expected;
         float m_initial_budget;
+        gregorian::date m_date;
         float m_current_budget;
+
+        p_saved incomes;
+        p_saved expenses;
+        p_planned planned_incomes;
+        p_planned planned_expenses;
     };
 } // namespace budget
 
