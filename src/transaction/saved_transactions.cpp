@@ -6,6 +6,7 @@ namespace transaction
     void saved_transactions::add_new_transaction(const transaction& new_transaction)
     {
         m_transactions.push_back(new_transaction);
+        calculate_sum();
     }
 
     void saved_transactions::remove_transaction(int transaction_id)
@@ -16,7 +17,10 @@ namespace transaction
         });
 
         if(result != m_transactions.end())
+        {
             m_transactions.erase(result);
+            calculate_sum();
+        }
         else 
             throw std::logic_error("transaction not found");
     }

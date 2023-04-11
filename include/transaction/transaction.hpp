@@ -51,4 +51,6 @@ namespace transaction
         {}
     };
 
+    bool operator < (const transaction& left, const transaction& right);
+    bool operator == (const transaction& left, const transaction& right);
 } // namespace transaction
