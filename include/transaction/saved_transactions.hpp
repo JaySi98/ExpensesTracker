@@ -11,10 +11,16 @@ namespace transaction
     {
     public:
         saved_transactions() = default;
-        saved_transactions(const std::vector<income>& incomes, const std::vector<expense>& expenses);
+        void add_new_transaction(const transaction& new_transaction);
+        void remove_transaction(int transaction_id);
+        const std::vector<transaction>& get_transactions() const;
+        std::map<transaction_type, float> get_sum_by_type();
+        float get_sum() const;
 
     private:
-        std::vector<income>  m_incomes;
-        std::vector<expense> m_expenses;        
+        void calculate_sum();
+
+        std::vector<transaction>  m_transactions;
+        float m_sum;
     };
 } // namespace transaction

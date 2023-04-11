@@ -2,6 +2,12 @@
 
 namespace transaction
 {
+    planned_transactions::planned_transactions(const mapped_expected& planned)
+        : map_planned(planned)
+    {
+        calculate_sum_planned();
+    }
+
     bool planned_transactions::add_new_transaction(transaction_type type, float expected_value)
     {
         if(map_planned.emplace(std::pair<transaction_type, float>(type, expected_value)).second)

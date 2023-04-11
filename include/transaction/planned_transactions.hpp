@@ -13,7 +13,8 @@ namespace transaction
 
     public:
         planned_transactions() = default;                                                    
-         
+        planned_transactions(const mapped_expected& planned);
+
         bool add_new_transaction(transaction_type type, float expected_value);
         bool update_transaction(transaction_type type, float new_value);
         std::pair<transaction_type, float> get_transaction(transaction_type type) const;
