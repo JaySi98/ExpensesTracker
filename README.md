@@ -27,6 +27,7 @@ In order to be able to use this template, you must have installed:
 * **GoogleTest** - for unit testing
 * **Clang-Tidy** - supported static analizer 
 * **Clang-Format** - for code formatting
+* **MySQL connector** - to connect to database, https://askubuntu.com/questions/1321141/unable-to-install-mysqlclient-on-ubuntu-20-10
 
 # Getting Started 
 1. Change project name in CmakeLists.txt

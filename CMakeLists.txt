@@ -129,35 +129,28 @@ message(STATUS "Applied compiler warnings. Using standard C++${CMAKE_CXX_STANDAR
 # Project dependencies
 # ===========================
 
+# BOOST
 set(Boost_FIND_REQUIRED TRUE)
 set(Boost_FIND_QUIETLY TRUE)
 set(Boost_DEBUG FALSE)
 set(Boost_USE_MULTITHREADED TRUE)
 set(Boost_USE_STATIC_LIBS TRUE)
-
 find_package(Boost COMPONENTS date_time)
-target_link_libraries(${PROJECT_NAME} Boost::date_time)
 
-# CPMAddPackage("gh:mysql/mysql-connector-cpp#trunk")
+# MySQL connector
+include(FindPkgConfig)
+pkg_check_modules(LIBMYSQLCLIENT REQUIRED mysqlclient)
+foreach(FLAG ${LIBMYSQLCLIENT_CFLAGS_OTHER})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${FLAG}")
+endforeach()
+link_directories(${LIBMYSQLCLIENT_LIBRARY_DIRS})
+target_include_directories(${PROJECT_NAME}  PRIVATE ${LIBMYSQLCLIENT_INCLUDE_DIRS})
 
-# find_package(package_name package_version REQUIRED package_type [other_options])
-#target_link_libraries(
-#  ${PROJECT_NAME}
-#  PUBLIC
-#    dependency1 ...
-#  PRIVATE
-#    dependency2 ...
-#    PROJECT_OPTIONS
-#    PROJECT_WARNINGS
-#)
-
-#if(BUILD_EXECUTABLE AND ENABLE_UNIT_TESTING)
-#  target_link_libraries(
-#    ${PROJECT_NAME}_LIB
-#    PUBLIC
-#      dependency1 ...
-#  )
-#endif()
+# linking
+target_link_libraries(${PROJECT_NAME} PRIVATE 
+    Boost::date_time 
+    ${LIBMYSQLCLIENT_LIBRARIES}
+)
 
 # For Windows, it is necessary to link with the MultiThreaded library.
 # On Linux and Mac this variable is ignored. 
