@@ -26,7 +26,7 @@ protected:
 
     }
 
-    budget::monthly_budget month;
+    // budget::monthly_budget month;
 };
 
 TEST_F(monthlyBudgetTest, constructor)
