@@ -28,10 +28,10 @@ namespace budget
         std::shared_ptr<planned_transactions> get_planned_incomes();
         std::shared_ptr<planned_transactions> get_planned_expenses();
 
-        void set_initial_budget(float new_value);
+        void  set_initial_budget(float new_value);
         float get_initial_budget() const;
         float get_current_budget() const;
-        void set_date(const gregorian::date& new_date);
+        void  set_date(const gregorian::date& new_date);
         gregorian::date get_date() const;
 
     private:

@@ -3,7 +3,10 @@
 namespace budget
 {
     monthly_budget::monthly_budget(float initial_budget, const gregorian::date& date)
-        : m_initial_budget(initial_budget), m_date(date)
+        : m_initial_budget(initial_budget)
+        , m_date(date)
+        , incomes(new saved_transactions)
+        , expenses(new saved_transactions)
     { }
 
     monthly_budget::monthly_budget(float initial_budget, const gregorian::date& date, const planned_transactions& planned_incomes_, 
@@ -11,6 +14,8 @@ namespace budget
         : m_initial_budget(initial_budget), m_date(date)
         , planned_incomes(new planned_transactions(planned_incomes_))
         , planned_expenses(new planned_transactions(planned_expenses_))
+        , incomes(new saved_transactions)
+        , expenses(new saved_transactions)
     { 
         calculate_current_budget();
     }

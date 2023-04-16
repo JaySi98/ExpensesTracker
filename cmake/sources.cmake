@@ -27,4 +27,5 @@ set(TEST_SOURCES
     expenseTest.cpp
     plannedTransactionsTest.cpp
     savedTransactionsTest.cpp
+    monthlyBudgetTest.cpp
 )
