@@ -1,9 +1,11 @@
 set(HEADERS
-    include/expense/expense.hpp
+    include/transaction.hpp
+    include/date.hpp
 )
 
 set(SOURCES
-    src/expense/expense.cpp
+    src/transaction.cpp
+    src/date.cpp
 )
 
 set(EXE_SOURCES
@@ -14,5 +16,4 @@ set(EXE_SOURCES
 # inside test directory
 set(TEST_SOURCES
     mainTest.cpp
-    expenseTest.cpp
 )
