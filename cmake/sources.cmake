@@ -1,11 +1,10 @@
 set(HEADERS
     include/transaction.hpp
-    include/date.hpp
+    include/transaction_type.hpp
 )
 
 set(SOURCES
     src/transaction.cpp
-    src/date.cpp
 )
 
 set(EXE_SOURCES
