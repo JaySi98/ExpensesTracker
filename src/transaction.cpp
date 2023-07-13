@@ -1,4 +1,5 @@
 #include <transaction.hpp>
+#include "transaction_type.hpp"
 
 transaction::transaction(date d ,
         transaction_type type, 
@@ -13,6 +14,8 @@ transaction::transaction(date d ,
 
 std::ostream& operator<< (std::ostream& os, const transaction& tr)
 {
-    os << tr.m_date << ' ' << tr.m_value << ' ' << tr.m_note;
+    os << tr.m_date << " | " << tr.m_value << " | " 
+       << str_tran_type.at(tr.m_type) << " | " << tr.m_note;
+
     return os;
 }
