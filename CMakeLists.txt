@@ -129,6 +129,7 @@ message(STATUS "Applied compiler warnings. Using standard C++${CMAKE_CXX_STANDAR
 # Project dependencies
 # ===========================
 
+# Boost
 set(Boost_FIND_REQUIRED TRUE)
 set(Boost_FIND_QUIETLY TRUE)
 set(Boost_DEBUG FALSE)
@@ -136,7 +137,20 @@ set(Boost_USE_MULTITHREADED TRUE)
 set(Boost_USE_STATIC_LIBS TRUE)
 
 find_package(Boost COMPONENTS date_time program_options)
-target_link_libraries(${PROJECT_NAME} Boost::date_time Boost::program_options)
+#target_link_libraries(${PROJECT_NAME} Boost::date_time Boost::program_options)
+
+# FTXUI
+CPMAddPackage("gh:ArthurSonzogni/FTXUI#v4.1.1")
+#target_include_directories(${PROJECT_NAME} PRIVATE src)
+
+target_link_libraries(${PROJECT_NAME}
+  PRIVATE 
+  Boost::date_time 
+  Boost::program_options
+  ftxui::screen
+  ftxui::dom
+  ftxui::component
+)
 
 # find_package(package_name package_version REQUIRED package_type [other_options])
 #target_link_libraries(
