@@ -139,7 +139,21 @@ set(Boost_USE_STATIC_LIBS TRUE)
 find_package(Boost COMPONENTS date_time program_options)
 
 # FTXUI
-CPMAddPackage("gh:ArthurSonzogni/FTXUI#v4.1.1")
+# CPMAddPackage("gh:ArthurSonzogni/FTXUI#v4.1.1")
+
+# include(FetchContent)
+# FetchContent_Declare(ftxui
+#   GIT_REPOSITORY https://github.com/ArthurSonzogni/ftxui
+#   GIT_TAG v3.0.0
+# )
+# FetchContent_GetProperties(ftxui)
+# if(NOT ftxui_POPULATED)
+#   FetchContent_Populate(ftxui)
+#   add_subdirectory(${ftxui_SOURCE_DIR} ${ftxui_BINARY_DIR} EXCLUDE_FROM_ALL)
+# endif()
+
+find_package(ftxui COMPONENTS screen dom component)
+
 
 # linking
 target_link_libraries(${PROJECT_NAME}
@@ -150,25 +164,6 @@ target_link_libraries(${PROJECT_NAME}
   ftxui::dom
   ftxui::component
 )
-
-# find_package(package_name package_version REQUIRED package_type [other_options])
-#target_link_libraries(
-#  ${PROJECT_NAME}
-#  PUBLIC
-#    dependency1 ...
-#  PRIVATE
-#    dependency2 ...
-#    PROJECT_OPTIONS
-#    PROJECT_WARNINGS
-#)
-
-#if(BUILD_EXECUTABLE AND ENABLE_UNIT_TESTING)
-#  target_link_libraries(
-#    ${PROJECT_NAME}_LIB
-#    PUBLIC
-#      dependency1 ...
-#  )
-#endif()
 
 # For Windows, it is necessary to link with the MultiThreaded library.
 # On Linux and Mac this variable is ignored. 

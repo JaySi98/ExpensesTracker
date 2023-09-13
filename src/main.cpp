@@ -1,103 +1,38 @@
 #include <iostream>
-#include <transaction.hpp>
-#include "transaction_type.hpp"
-#include <options_parser.hpp>
-
-// test
-#include <gui/reports_view.hpp>
+#include <array>
+#include <atomic>
+#include <chrono>
+#include <functional>
+#include <memory>
+#include <string>
+#include <thread>
+#include <utility>
+#include <vector>
 
 #include <ftxui/dom/elements.hpp>
 #include <ftxui/screen/screen.hpp>
 #include <ftxui/screen/string.hpp>
-#include <stddef.h>    // for size_t
-#include <array>       // for array
-#include <atomic>      // for atomic
-#include <chrono>      // for operator""s, chrono_literals
-#include <cmath>       // for sin
-#include <functional>  // for ref, reference_wrapper, function
-#include <memory>      // for allocator, shared_ptr, __shared_ptr_access
-#include <string>  // for string, basic_string, char_traits, operator+, to_string
-#include <thread>   // for sleep_for, thread
-#include <utility>  // for move
-#include <vector>   // for vector
+#include "ftxui/component/component.hpp"
+#include "ftxui/component/component_base.hpp"
+#include "ftxui/component/component_options.hpp"
+#include "ftxui/component/event.hpp"
+#include "ftxui/component/screen_interactive.hpp"
+#include "ftxui/dom/elements.hpp"
+#include "ftxui/dom/flexbox_config.hpp"
+#include "ftxui/screen/terminal.hpp"
 
-#include "ftxui/component/component.hpp"  // for Checkbox, Renderer, Horizontal, Vertical, Input, Menu, Radiobox, ResizableSplitLeft, Tab
-#include "ftxui/component/component_base.hpp"  // for ComponentBase, Component
-#include "ftxui/component/component_options.hpp"  // for MenuOption, InputOption
-#include "ftxui/component/event.hpp"              // for Event, Event::Custom
-#include "ftxui/component/screen_interactive.hpp"  // for Component, ScreenInteractive
-#include "ftxui/dom/elements.hpp"  // for text, color, operator|, bgcolor, filler, Element, vbox, size, hbox, separator, flex, window, graph, EQUAL, paragraph, WIDTH, hcenter, Elements, bold, vscroll_indicator, HEIGHT, flexbox, hflow, border, frame, flex_grow, gauge, paragraphAlignCenter, paragraphAlignJustify, paragraphAlignLeft, paragraphAlignRight, dim, spinner, LESS_THAN, center, yframe, GREATER_THAN
-#include "ftxui/dom/flexbox_config.hpp"  // for FlexboxConfig
-#include "ftxui/screen/terminal.hpp"    // for Size, Dimensions
+// #include <transaction.hpp>
+// #include "transaction_type.hpp"
+// #include <options_parser.hpp>
+#include <view_models/main_vm.hpp>
+
 using namespace ftxui;
 
 int main(int /*argc*/, char** /*argv*/) 
 {
+    view_models::main_vm mainView;
+
     auto screen = ScreenInteractive::Fullscreen();
-
-    // ---------------------------------------------------------------------------
-    // Months view
-    // --------------------------------------------------------------------------- 
-    int iter = 0;
-    std::vector<std::string> months{
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Agst", "Seb", "Oct", "Nov", "Dec"
-    };
-
-    auto com_m = Container::Vertical({
-        Collapsible("2020",{Menu(&months, &iter)}),
-        Collapsible("2021",{Menu(&months, &iter)}),
-        Collapsible("2022",{Menu(&months, &iter)}),
-    });
-
-    auto months_view = Renderer(com_m,[&] 
-    {
-        auto list_vbox = vbox(
-        {
-            text("Months") | hcenter,
-            com_m->Render()
-        });
-
-        return vbox(
-        {
-            hbox(
-            {
-                list_vbox
-            })
-        });
-    });
-
-    // ---------------------------------------------------------------------------
-    // Main view
-    // ---------------------------------------------------------------------------
-
-    int tab_index = 0;
-    std::vector<std::string> tab_entries = {
-        "Monthly reports"
-    };
-    
-    auto tab_selection = Menu(&tab_entries, &tab_index, MenuOption::Horizontal()); 
-    auto tab_content = Container::Tab(
-    {
-        months_view,
-    }, &tab_index);
-
-    auto main_container = Container::Vertical(
-    {
-        tab_selection,
-        tab_content,
-    });
-
-    auto main_renderer = Renderer(main_container, [&] 
-    {
-        return vbox(
-        {
-            text("Expense Tracker") | bold | hcenter,
-            tab_selection->Render(),
-            tab_content->Render() | flex,
-        });
-    });
-
     std::atomic<bool> refresh_ui_continue = true;
     std::thread refresh_ui([&] 
     {
@@ -108,11 +43,12 @@ int main(int /*argc*/, char** /*argv*/)
 
             // After updating the state, request a new frame to be drawn. This is done
             // by simulating a new "custom" event to be handled.
+            screen.Post([&] { mainView.Update(); });
             screen.Post(Event::Custom);
         }
     });
 
-    screen.Loop(main_renderer);
+    screen.Loop(mainView.Render());
     refresh_ui_continue = false;
     refresh_ui.join();
     
