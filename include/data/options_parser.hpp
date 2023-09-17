@@ -6,8 +6,8 @@
 #include <boost/program_options/variables_map.hpp>
 #include <string>
 
-#include <transaction.hpp>
-#include "transaction_type.hpp"
+#include <data/transaction.hpp>
+#include <data/transaction_type.hpp>
 
 namespace po = boost::program_options;
 

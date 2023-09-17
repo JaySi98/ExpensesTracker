@@ -1,8 +1,8 @@
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/value_semantic.hpp>
 #include <boost/program_options/variables_map.hpp>
-#include <options_parser.hpp>
-#include "transaction_type.hpp"
+#include <data/options_parser.hpp>
+#include <data/transaction_type.hpp>
 
 options_parser::options_parser(int argc, char** argv)
 {

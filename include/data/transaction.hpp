@@ -4,7 +4,7 @@
 #include <stdint.h>
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/date_clock_device.hpp>
-#include <transaction_type.hpp>
+#include <data/transaction_type.hpp>
 
 using namespace boost::gregorian;
 

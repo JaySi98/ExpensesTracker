@@ -1,5 +1,5 @@
-#include <transaction.hpp>
-#include "transaction_type.hpp"
+#include <data/transaction.hpp>
+#include <data/transaction_type.hpp>
 
 transaction::transaction(date d ,
         transaction_type type, 
