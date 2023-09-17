@@ -3,6 +3,7 @@
 #include <string> 
 #include <vector> 
 #include <view_models/base_vm.hpp>
+#include <domain_models/reports_dm.hpp>
 
 namespace view_models {
     
@@ -15,10 +16,17 @@ namespace view_models {
     private:
         virtual void ConstructView() override;
 
+        domain_models::reports_dm domain_model;
+
         // temp
         int iter;
+        int graphs_iter;
         std::vector<std::string> months;
-        Component container; 
+        std::vector<std::string> graphs;
+
+        Component container;
+        Component container_2;
+        Component container_main;
     };
 }
 

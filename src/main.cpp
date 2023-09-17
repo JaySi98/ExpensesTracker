@@ -8,7 +8,6 @@
 #include <thread>
 #include <utility>
 #include <vector>
-
 #include <ftxui/dom/elements.hpp>
 #include <ftxui/screen/screen.hpp>
 #include <ftxui/screen/string.hpp>
@@ -62,39 +61,39 @@ int main(int /*argc*/, char** /*argv*/)
    transaction trans1{d1,transaction_type::house_maintenance, "some note", 120  };
    std::cout << trans1 << std::endl;
 
-//
-options_parser parser(argc, argv);
-auto variables = parser.get_variables();
 
-if(variables.count("new_transaction"))
-{
-date d{};
-std::string note{};
-int value{0};
-std::string s_type{};
-transaction_type type{transaction_type::unknown};
+    options_parser parser(argc, argv);
+    auto variables = parser.get_variables();
 
-if(variables.count("date"))
-{
-d = variables["date"].as<date>();
-}
+    if(variables.count("new_transaction"))
+    {
+    date d{};
+    std::string note{};
+    int value{0};
+    std::string s_type{};
+    transaction_type type{transaction_type::unknown};
 
-if(variables.count("note"))
-{
-note = variables["note"].as<std::string>();
-}
+    if(variables.count("date"))
+    {
+    d = variables["date"].as<date>();
+    }
 
-if(variables.count("value"))
-{
-value = variables["value"].as<int>();
-}
+    if(variables.count("note"))
+    {
+    note = variables["note"].as<std::string>();
+    }
 
-if(variables.count("type"))
-{
-s_type = variables["type"].as<std::string>();
-}
+    if(variables.count("value"))
+    {
+    value = variables["value"].as<int>();
+    }
 
-transaction trans{d, type, note, value};
-std::cout << trans << std::endl;
-}
+    if(variables.count("type"))
+    {
+    s_type = variables["type"].as<std::string>();
+    }
+
+    transaction trans{d, type, note, value};
+    std::cout << trans << std::endl;
+    }
 */

@@ -4,11 +4,14 @@ namespace view_models
 {
     reports_vm::reports_vm()
         : iter(0)
+        , graphs_iter(0)
+        , domain_model()
     {
         months = {
             "Jan", "Feb", "Mar", "Apr", "May", "Jun",
             "Jul", "Agst", "Sep", "Oct", "Nov", "Dec"
         };
+        graphs = {"Categories", "Ratio", "Difference"};
 
         ConstructView();
     }
@@ -20,34 +23,20 @@ namespace view_models
 
     void reports_vm::ConstructView()
     {
-        container = Container::Vertical({
-            Collapsible("2020",{Menu(&months, &iter)}),
-            Collapsible("2021",{Menu(&months, &iter)}),
-            Collapsible("2022",{Menu(&months, &iter)}),
+        auto tab_toggle = Toggle(&graphs, &graphs_iter);
+        Component stats_container = Container::Vertical({ 
+            tab_toggle
+        }); 
+
+        container_main = Container::Horizontal({
+            Window("Month",     Menu(&months, &iter)),
+            Window("Expenses",  Menu(&months, &iter)),
+            Window("Stats",     stats_container),
         });
-        
-        m_component = Renderer(container, [&] 
+
+        m_component = Renderer(container_main,[&]   
         {
-            auto list_vbox = vbox(
-            {
-                text("Months") | hcenter,
-                container->Render()
-            });
-
-            auto list_vbox_2 = vbox(
-            {
-                text("Transactions") | hcenter,
-                //container->Render()
-            });
-
-            return vbox(
-            {
-                hbox(
-                {
-                    list_vbox,
-                    list_vbox_2
-                })
-            });
+            return container_main->Render();
         });
     }
 

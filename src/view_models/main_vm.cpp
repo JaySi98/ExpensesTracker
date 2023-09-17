@@ -51,8 +51,8 @@ namespace view_models
             return vbox(
             {
                 text("Expense Tracker") | bold | hcenter,
-                tabSelection->Render(),
-                tabContent->Render() | flex,
+                tabSelection->Render()  | border,
+                tabContent->Render()    | flex,
             });
         });
     }

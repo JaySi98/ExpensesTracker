@@ -7,6 +7,7 @@
 #include "ftxui/component/component_base.hpp"  
 #include "ftxui/component/component_options.hpp"
 #include "ftxui/component/event.hpp"
+#include <ftxui/dom/table.hpp>
 #include "ftxui/component/screen_interactive.hpp"
 #include "ftxui/dom/elements.hpp"
 #include "ftxui/dom/flexbox_config.hpp"
@@ -27,5 +28,14 @@ namespace view_models {
 
         protected:
             Component m_component;
+
+
+        Component Window(std::string title, Component component) 
+        {
+            return Renderer(component, [component, title] 
+            { 
+                return window(text(title) | hcenter, component->Render()) | flex;
+            });
+        }
     };
 }
