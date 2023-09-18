@@ -57,47 +57,90 @@
 #include <data/transaction_type.hpp>
 #include <data/options_parser.hpp>
 
+void add_transaction(const po::variables_map& parsed_variables);
+void print_monthly_budget(const po::variables_map& parsed_variables);
+void print_help();
+void print_transaction_types();
+
+
 int main(int argc, char** argv) 
 {
-   date d1{2020,12,5};
-   std::cout << d1.month() << std::endl;
-
-   transaction trans1{d1,transaction_type::house_maintenance, "some note", 120  };
-   std::cout << trans1 << std::endl;
-
-
     options_parser parser(argc, argv);
     auto variables = parser.get_variables();
 
-    if(variables.count("new_transaction"))
+    if(variables.count("add"))
     {
-        date d{};
-        std::string note{};
-        int value{0};
-        std::string s_type{};
-        transaction_type type{transaction_type::unknown};
-
-        if(variables.count("date"))
-        {
-            d = variables["date"].as<date>();
-        }
-
-        if(variables.count("note"))
-        {
-            note = variables["note"].as<std::string>();
-        }
-
-        if(variables.count("value"))
-        {
-            value = variables["value"].as<int>();
-        }
-
-        if(variables.count("type"))
-        {
-            s_type = variables["type"].as<std::string>();
-        }
-
-        transaction trans{d, type, note, value};
-        std::cout << trans << std::endl;
+        add_transaction(variables);
     }
+    else if(variables.count("print"))
+    {
+        print_monthly_budget(variables);
+    }
+    else if(variables.count("help"))
+    {
+        print_help();
+    }
+
+    else if(variables.count("transaction types"))
+    {
+        print_transaction_types();
+    }
+}
+
+void add_transaction(const po::variables_map& parsed_variables)
+{
+    date d{};
+    std::string note{};
+    int value{0};
+    transaction_type type{transaction_type::unknown};
+
+    if(parsed_variables.count("date"))
+    {
+        std::string date_str = parsed_variables["date"].as<std::string>(); 
+        d = from_simple_string(date_str);
+    }
+
+    if(parsed_variables.count("note"))
+    {
+        note = parsed_variables["note"].as<std::string>();
+    }
+
+    if(parsed_variables.count("value"))
+    {
+        value = parsed_variables["value"].as<int>();
+    }
+
+    if(parsed_variables.count("type"))
+    {
+        std::string s_type = parsed_variables["type"].as<std::string>();
+        
+        auto find_type = std::find_if(std::begin(str_tran_type), std::end(str_tran_type), [&](const std::pair<transaction_type, std::string>& pair)
+        {
+            return pair.second.compare(s_type) == 0; 
+        });
+
+        if(find_type != std::end(str_tran_type))
+        {
+            type = find_type->first;
+        }
+    }
+
+    transaction trans{d, type, note, value};
+    std::cout << trans << std::endl;
+}
+
+void print_monthly_budget(const po::variables_map& parsed_variables)
+{
+    std::cout << "monthly budget hehe" << std::endl;
+}
+
+void print_help()
+{
+    std::cout << "help hehe" << std::endl;
+    print_transaction_types();
+}
+
+void print_transaction_types()
+{
+    std::cout << "transaction types hehe" << std::endl;
 }
