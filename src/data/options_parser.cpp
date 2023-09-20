@@ -17,7 +17,7 @@ options_parser::options_parser(int argc, char** argv)
         ("date",    po::value<std::string>(),   "date of transaction")
         ("type",    po::value<std::string>(),   "type of transaction")
         ("note",    po::value<std::string>(),   "note added to transaction")
-        ("value",   po::value<int>(),           "value of transaction");
+        ("value",   po::value<float>(),         "value of transaction");
    
     po::store(po::parse_command_line(argc, argv, m_description),m_variables);
     po::notify(m_variables);

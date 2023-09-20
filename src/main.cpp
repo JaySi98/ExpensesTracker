@@ -53,8 +53,8 @@
     }
 */
 
-#include <data/transaction.hpp>
 #include <data/transaction_type.hpp>
+#include <data/monthly_budget.hpp>
 #include <data/options_parser.hpp>
 
 void add_transaction(const po::variables_map& parsed_variables);
@@ -91,7 +91,7 @@ void add_transaction(const po::variables_map& parsed_variables)
 {
     date d{};
     std::string note{};
-    int value{0};
+    float value{0};
     transaction_type type{transaction_type::unknown};
 
     if(parsed_variables.count("date"))
@@ -107,7 +107,7 @@ void add_transaction(const po::variables_map& parsed_variables)
 
     if(parsed_variables.count("value"))
     {
-        value = parsed_variables["value"].as<int>();
+        value = parsed_variables["value"].as<float>();
     }
 
     if(parsed_variables.count("type"))

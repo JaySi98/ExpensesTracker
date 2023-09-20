@@ -1,8 +1,7 @@
 set(HEADERS
-    include/data/transaction.hpp
     include/data/transaction_type.hpp
-    include/data/options_parser.hpp
     include/data/monthly_budget.hpp
+    include/data/options_parser.hpp
 
     # include/view_models/base_vm.hpp
     # include/view_models/main_vm.hpp
@@ -13,7 +12,6 @@ set(HEADERS
 )
 
 set(SOURCES
-    src/data/transaction.cpp
     src/data/options_parser.cpp
     src/data/monthly_budget.cpp
 
