@@ -125,7 +125,7 @@ void add_transaction(const po::variables_map& parsed_variables)
         }
     }
 
-    transaction trans{d, type, note, value};
+    transaction trans{0, d, type, note, value};
     std::cout << trans << std::endl;
 }
 
