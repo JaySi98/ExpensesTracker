@@ -60,7 +60,7 @@
 void add_transaction(const po::variables_map& parsed_variables);
 void print_monthly_budget(const po::variables_map& parsed_variables);
 void print_help();
-void print_transaction_types();
+void print_transaction_categories();
 
 
 int main(int argc, char** argv) 
@@ -72,7 +72,7 @@ int main(int argc, char** argv)
     {
         add_transaction(variables);
     }
-    else if(variables.count("print"))
+    else if(variables.count("month"))
     {
         print_monthly_budget(variables);
     }
@@ -81,9 +81,9 @@ int main(int argc, char** argv)
         print_help();
     }
 
-    else if(variables.count("transaction types"))
+    else if(variables.count("types"))
     {
-        print_transaction_types();
+        print_transaction_categories();
     }
 }
 
@@ -92,7 +92,7 @@ void add_transaction(const po::variables_map& parsed_variables)
     date d{};
     std::string note{};
     float value{0};
-    transaction_type type{transaction_type::unknown};
+    transaction_category category{transaction_category::unknown};
 
     if(parsed_variables.count("date"))
     {
@@ -110,22 +110,22 @@ void add_transaction(const po::variables_map& parsed_variables)
         value = parsed_variables["value"].as<float>();
     }
 
-    if(parsed_variables.count("type"))
+    if(parsed_variables.count("cat"))
     {
-        std::string s_type = parsed_variables["type"].as<std::string>();
+        std::string s_type = parsed_variables["cat"].as<std::string>();
         
-        auto find_type = std::find_if(std::begin(str_tran_type), std::end(str_tran_type), [&](const std::pair<transaction_type, std::string>& pair)
+        auto find_type = std::find_if(std::begin(str_tran_cat), std::end(str_tran_cat), [&](const std::pair<transaction_category, std::string>& pair)
         {
             return pair.second.compare(s_type) == 0; 
         });
 
-        if(find_type != std::end(str_tran_type))
+        if(find_type != std::end(str_tran_cat))
         {
-            type = find_type->first;
+            category = find_type->first;
         }
     }
 
-    transaction trans{0, d, type, note, value};
+    transaction trans{0, d, category, note, value};
     std::cout << trans << std::endl;
 }
 
@@ -137,10 +137,10 @@ void print_monthly_budget(const po::variables_map& parsed_variables)
 void print_help()
 {
     std::cout << "help hehe" << std::endl;
-    print_transaction_types();
+    print_transaction_categories();
 }
 
-void print_transaction_types()
+void print_transaction_categories()
 {
-    std::cout << "transaction types hehe" << std::endl;
+    std::cout << "types hehe" << std::endl;
 }

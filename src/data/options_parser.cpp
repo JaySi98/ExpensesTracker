@@ -10,12 +10,12 @@ options_parser::options_parser(int argc, char** argv)
 {
     m_description.add_options()
         ("help,H", "")
-        ("transaction types,T", "")
+        ("types,T", "")
         ("add,A", "Add new transaction to current month")
-        ("monthly budget,P", "Print list of transactions for given month")
+        ("month,M", "Print list of transactions for given month")
 
         ("date",    po::value<std::string>(),   "date of transaction")
-        ("type",    po::value<std::string>(),   "type of transaction")
+        ("cat",     po::value<std::string>(),   "transaction category")
         ("note",    po::value<std::string>(),   "note added to transaction")
         ("value",   po::value<float>(),         "value of transaction");
    

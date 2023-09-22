@@ -3,7 +3,13 @@
 #include <map>
 #include <string>
 
-enum class transaction_type: int 
+enum class transaction_type: int
+{
+    income = 0,
+    expense
+};
+
+enum class transaction_category: int 
 {
     unknown = 0,
 
@@ -31,28 +37,28 @@ enum class transaction_type: int
     crap
 };
 
-const std::map<transaction_type, std::string> str_tran_type
+const std::map<transaction_category, std::string> str_tran_cat
 {
-   {transaction_type::unknown,              "unknown"},
+   {transaction_category::unknown,              "unknown"},
 
-   {transaction_type::salary,               "salary"},
-   {transaction_type::stocks,               "stocks"},
-   {transaction_type::sales,                "sales"},
-   {transaction_type::other_incomes,        "other incomes"},
+   {transaction_category::salary,               "salary"},
+   {transaction_category::stocks,               "stocks"},
+   {transaction_category::sales,                "sales"},
+   {transaction_category::other_incomes,        "other incomes"},
 
-   {transaction_type::bills,                "bills"},
-   {transaction_type::rent,                 "rent"},
-   {transaction_type::insurances,           "insurances"},
-   {transaction_type::subscriptions,        "subscriptions"},
-   {transaction_type::food,                 "food"},
-   {transaction_type::transport,            "transport"},
-   {transaction_type::house_maintenance,    "house and maintenance"},
-   {transaction_type::social_outings,       "socials"},
-   {transaction_type::gym,                  "gym"},
-   {transaction_type::clothes,              "clothes"},
-   {transaction_type::appearance_health,    "appearance and health"},
-   {transaction_type::furniture_equipment,  "furniture and equipment"},
-   {transaction_type::personal_development, "personal development"},
-   {transaction_type::cards,                "cards"},
-   {transaction_type::crap,                 "crap"},   
+   {transaction_category::bills,                "bills"},
+   {transaction_category::rent,                 "rent"},
+   {transaction_category::insurances,           "insurances"},
+   {transaction_category::subscriptions,        "subscriptions"},
+   {transaction_category::food,                 "food"},
+   {transaction_category::transport,            "transport"},
+   {transaction_category::house_maintenance,    "house and maintenance"},
+   {transaction_category::social_outings,       "socials"},
+   {transaction_category::gym,                  "gym"},
+   {transaction_category::clothes,              "clothes"},
+   {transaction_category::appearance_health,    "appearance and health"},
+   {transaction_category::furniture_equipment,  "furniture and equipment"},
+   {transaction_category::personal_development, "personal development"},
+   {transaction_category::cards,                "cards"},
+   {transaction_category::crap,                 "crap"},   
 };

@@ -1,56 +1,51 @@
 #include <data/monthly_budget.hpp>
 
-    v_planned create_default_planned_incomes()
+    map_planned create_default_planned()
     {
-        v_planned incomes{
-            planned_transaction{transaction_type::unknown,0,0},
-            planned_transaction{transaction_type::salary,0,0},
-            planned_transaction{transaction_type::sales,0,0},
-            planned_transaction{transaction_type::stocks,0,0},
-            planned_transaction{transaction_type::other_incomes,0,0},
-        };
-        return incomes;
-    }
+        map_planned planned{
+            {transaction_category::unknown,                 planned_transaction{transaction_type::income,0,0}},
+            {transaction_category::salary,                  planned_transaction{transaction_type::income,0,0}},
+            {transaction_category::sales,                   planned_transaction{transaction_type::income,0,0}},
+            {transaction_category::stocks,                  planned_transaction{transaction_type::income,0,0}},
+            {transaction_category::other_incomes,           planned_transaction{transaction_type::income,0,0}},
 
-    v_planned create_default_planned_expenses()
-    {
-        v_planned expenses{
-            planned_transaction{transaction_type::unknown,0,0},
-            planned_transaction{transaction_type::bills,0,0},
-            planned_transaction{transaction_type::rent,0,0},
-            planned_transaction{transaction_type::insurances,0,0},
-            planned_transaction{transaction_type::subscriptions,0,0},
-            planned_transaction{transaction_type::food,0,0},
-            planned_transaction{transaction_type::transport,0,0},
-            planned_transaction{transaction_type::house_maintenance,0,0},
-            planned_transaction{transaction_type::social_outings,0,0},
-            planned_transaction{transaction_type::gym,0,0},
-            planned_transaction{transaction_type::clothes,0,0},
-            planned_transaction{transaction_type::appearance_health,0,0},
-            planned_transaction{transaction_type::furniture_equipment,0,0},
-            planned_transaction{transaction_type::personal_development,0,0},
-            planned_transaction{transaction_type::cards,0,0},
-            planned_transaction{transaction_type::crap,0,0},
+            {transaction_category::unknown,                 planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::bills,                   planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::rent,                    planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::insurances,              planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::subscriptions,           planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::food,                    planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::transport,               planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::house_maintenance,       planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::social_outings,          planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::gym,                     planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::clothes,                 planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::appearance_health,       planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::furniture_equipment,     planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::personal_development,    planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::cards,                   planned_transaction{transaction_type::expense,0,0}},
+            {transaction_category::crap,                    planned_transaction{transaction_type::expense,0,0}},
+
         };
-        return expenses;
+        return planned;
     }
 
     std::ostream& operator<< (std::ostream& os, const transaction& tr)
     {
-        os << tr.id  << " | " << tr.m_date << " | " << tr.value << " | " << str_tran_type.at(tr.type) << " | " << tr.note;
+        os << tr.id  << " | " << tr.m_date << " | " << tr.value << " | " << str_tran_cat.at(tr.category) << " | " << tr.note;
         return os;
     }
 
     std::ostream& operator<< (std::ostream& os, const planned_transaction& ptr)
     {
-        os << str_tran_type.at(ptr.type) << " | " << ptr.sum  << " | " << ptr.current;
+        os << " | " << ptr.sum  << " | " << ptr.current;
         return os;
     }
 
     void monthly_budget::add_transaction(const transaction& new_transaction)
     {
         m_transactions.push_back(new_transaction);
-        // todo update planned
+        planned[new_transaction.category].current += new_transaction.value;    
         calculate_current_budget();
     }
 
@@ -59,7 +54,9 @@
         std::remove_if(m_transactions.begin(),m_transactions.end(), [&id](const transaction& tr){
             return tr.id == id;
         });
-        // todo update planned
+
+        // TODO
+        // planned[new_transaction.type].current -= new_transaction.value;
         calculate_current_budget();
     }
 
@@ -75,5 +72,5 @@
             transaction_sum += tr.value;
         });
 
-        m_current_budget = m_initial_budget + transaction_sum;
+        current_budget = initial_budget + transaction_sum;
     }
