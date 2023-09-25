@@ -37,7 +37,7 @@ map_planned create_default_planned();
 struct monthly_budget
 {
 public:
-    void add_transaction(const transaction& new_transaction);
+    void add_transaction(transaction new_transaction);
     void remove_transaction(int id);
     const v_transaction& get_transactions();
 

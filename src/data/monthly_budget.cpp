@@ -38,25 +38,35 @@
 
     std::ostream& operator<< (std::ostream& os, const planned_transaction& ptr)
     {
-        os << " | " << ptr.sum  << " | " << ptr.current;
+        os << ptr.sum  << " | " << ptr.current;
         return os;
     }
 
-    void monthly_budget::add_transaction(const transaction& new_transaction)
+    void monthly_budget::add_transaction(transaction new_transaction)
     {
-        m_transactions.push_back(new_transaction);
-        planned[new_transaction.category].current += new_transaction.value;    
-        calculate_current_budget();
+        auto found = std::find_if(m_transactions.begin(),m_transactions.end(), [&new_transaction](const transaction& tr){
+            return tr.id == new_transaction.id;
+        });
+
+        if(found == m_transactions.end())
+        {
+            m_transactions.push_back(new_transaction);
+            planned[new_transaction.category].current += new_transaction.value;    
+            calculate_current_budget();
+        }
+
+        // TODO - warning here
     }
 
     void monthly_budget::remove_transaction(int id)
     {
-        std::remove_if(m_transactions.begin(),m_transactions.end(), [&id](const transaction& tr){
+        auto found = std::find_if(m_transactions.begin(),m_transactions.end(), [&id](const transaction& tr){
             return tr.id == id;
         });
 
-        // TODO
-        // planned[new_transaction.type].current -= new_transaction.value;
+        planned[found->category].current -= found->value;
+        m_transactions.erase(found);
+
         calculate_current_budget();
     }
 

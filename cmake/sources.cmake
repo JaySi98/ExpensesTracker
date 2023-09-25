@@ -17,4 +17,8 @@ set(EXE_SOURCES
 # inside test directory
 set(TEST_SOURCES
     mainTest.cpp
+
+    monthlyBudgetTest.cpp
+    transactionTest.cpp
+    optionParserTest.cpp
 )
