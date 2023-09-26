@@ -1,12 +1,16 @@
 set(HEADERS
     include/data/transaction_type.hpp
     include/data/monthly_budget.hpp
-    include/data/options_parser.hpp
+
+    include/functional/options_parser.hpp
+    include/functional/options_controller.hpp
 )
 
 set(SOURCES
-    src/data/options_parser.cpp
     src/data/monthly_budget.cpp
+
+    src/functional/options_parser.cpp
+    src/functional/options_controller.cpp
 )
 
 set(EXE_SOURCES

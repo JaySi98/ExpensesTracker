@@ -3,6 +3,18 @@
 #include <map>
 #include <string>
 
+enum class options: int
+{
+    help = 0,
+    types,
+    add,
+    month,
+    date,
+    category,
+    note,
+    value,
+};
+
 enum class transaction_type: int
 {
     income = 0,
@@ -37,7 +49,7 @@ enum class transaction_category: int
     crap
 };
 
-const std::map<transaction_category, std::string> str_tran_cat
+const static std::map<transaction_category, std::string> str_tran_cat
 {
    {transaction_category::unknown,              "unknown"},
 
@@ -61,4 +73,16 @@ const std::map<transaction_category, std::string> str_tran_cat
    {transaction_category::personal_development, "personal development"},
    {transaction_category::cards,                "cards"},
    {transaction_category::crap,                 "crap"},   
+};
+
+static std::map<options, std::string> str_options
+{
+    {options::help,     "help"},
+    {options::types,    "types"},
+    {options::add,      "add"},
+    {options::month,    "month"},
+    {options::date,     "date"},
+    {options::category, "cat"},
+    {options::note,     "note"},
+    {options::value,    "value"},
 };
